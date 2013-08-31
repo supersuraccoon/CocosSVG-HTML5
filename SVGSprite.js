@@ -8,32 +8,17 @@ var SVGSprite = cc.Node.extend({
     	this._flipY = false;
     	this._color = cc.WHITE;
     	this._showControlPoint = false;
+    	this._ignoreContentSize = false;
     	
-        this._pathArray = SVGPathUtil.pathStringToArray(pathString);
-        this._svgPathElementArray = SVGPathUtil.drawSVGPath(this._pathArray);
+        this._svgPathElementArray = SVGPathUtil.drawSVGPath(SVGPathUtil.pathStringToArray(pathString));
         
         this.setAnchorPoint(cc.p(0.5, 0.5));
         this._updateContentSize();
         
         return true;
 	},
-	_updateContentSize:function () {
-		var l = 99999, r = 0, t = 0, b = 99999;
-		for (var i = 0; i < this._svgPathElementArray.length; i++) {
-    		var svgPathElement = this._svgPathElementArray[i];
-    		for (var j = 0; j < svgPathElement._pointArray.length; j++) {
-    			var pt = svgPathElement._pointArray[j];
-    			if (pt.x < l)
-    				l = pt.x;
-    			if (pt.x > r)
-    				r = pt.x;
-    			if (pt.y < b)
-    				b = pt.y;
-    			if (pt.y > t)
-    				t = pt.y;
-    		}
-		}
-		this.setContentSize(new cc.Size(r - l, t - b));
+	appendPath:function (pathString) {
+		this._svgPathElementArray = this._svgPathElementArray.concat(SVGPathUtil.drawSVGPath(SVGPathUtil.pathStringToArray(pathString)));
 	},
 	setFlipX:function (isFlip) {
 		this._flipX = isFlip;
@@ -46,6 +31,33 @@ var SVGSprite = cc.Node.extend({
 	},
 	setShowControlPoint:function (isShowControlPoint) {
 		this._showControlPoint = isShowControlPoint;
+	},
+	setIgnoreContentSize:function (isIgnoreContentSize) {
+		this._ignoreContentSize = isIgnoreContentSize;
+		this._updateContentSize();
+		
+	},
+	_updateContentSize:function () {
+		if (this._ignoreContentSize)
+			this.setContentSize(new cc.Size(0, 0));
+		else {
+			var l = 99999, r = 0, t = 0, b = 99999;
+			for (var i = 0; i < this._svgPathElementArray.length; i++) {
+	    		var svgPathElement = this._svgPathElementArray[i];
+	    		for (var j = 0; j < svgPathElement._pointArray.length; j++) {
+	    			var pt = svgPathElement._pointArray[j];
+	    			if (pt.x < l)
+	    				l = pt.x;
+	    			if (pt.x > r)
+	    				r = pt.x;
+	    			if (pt.y < b)
+	    				b = pt.y;
+	    			if (pt.y > t)
+	    				t = pt.y;
+	    		}
+			}
+			this.setContentSize(new cc.Size(r - l, t - b));	
+		}
 	},
 	_pointTransformations:function (pointArray) {
 		var resultArray = new Array();
@@ -63,8 +75,9 @@ var SVGSprite = cc.Node.extend({
     	for (var i = 0; i < this._svgPathElementArray.length; i++) {
     		var svgPathElement = this._svgPathElementArray[i];
     		var svgPointArray = this._pointTransformations(svgPathElement._pointArray);
-    		if (this._showControlPoint && svgPathElement._type == SVG_PATH_DOT) {
-    			cc.drawingUtil.drawCircle(svgPointArray[0], 1, 0, 50, false);
+    		if (svgPathElement._type == SVG_PATH_DOT) {
+    			if (this._showControlPoint)
+    				cc.drawingUtil.drawCircle(svgPointArray[0], 1, 0, 50, false);
     		}
     		else if (svgPathElement._type == SVG_PATH_LINE) {
     			cc.drawingUtil.drawLine(svgPointArray[0], svgPointArray[1]);

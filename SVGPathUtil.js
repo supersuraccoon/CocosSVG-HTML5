@@ -31,10 +31,14 @@ var SVGPathElement = function (type, pointArray) {
 var SVGPathUtil = function () {};
 
 SVGPathUtil.pathStringToArray = function (pathString) {
-	pathString = pathString.replace(/\s*([mlqczhvsMLQCZHVS])\s*/g, "\n$1 ")
-						   .replace(/,/g, " ")
-						   .replace(/-/g, " -")
-						   .replace(/ +/g, " ");
+//	pathString = pathString.replace(/\s*([mlqczhvsMLQCZHVS])\s*/g, "\n$1 ")
+//						   .replace(/,/g, " ")
+//						   .replace(/-/g, " -")
+//						   .replace(/ +/g, " ");
+	pathString = pathString.replace(/\s*([poiuytrewqasdfghjklmnbvcxzPOIUYTREWQASDFGHJKLMNBVCXZ])\s*/g, "\n$1 ")
+	   .replace(/,/g, " ")
+	   .replace(/-/g, " -")
+	   .replace(/ +/g, " ");
 	return pathString.split("\n");
 };
 
@@ -68,7 +72,7 @@ SVGPathUtil.drawSVGPath = function (pathArray) {
 			}
 		}
 		// L lineto (x y)+
-		if(cmd == "l" || cmd == "L") {
+		else if(cmd == "l" || cmd == "L") {
 			for (var j = 0; j < terms.length / 2; j++) {
 				var _x = parseFloat(terms[j * 2]), _y = parseFloat(terms[j * 2 + 1]);
 				px = x, py = y;
@@ -77,7 +81,7 @@ SVGPathUtil.drawSVGPath = function (pathArray) {
 			}
 		}
 		// H horizontal lineto x+
-		if(cmd == "h" || cmd == "H") {
+		else if(cmd == "h" || cmd == "H") {
 			for (var j = 0; j <= terms.length - 1; j++) {
 				var _x = parseFloat(terms[j]);
 				px = x, py = y;
@@ -86,7 +90,7 @@ SVGPathUtil.drawSVGPath = function (pathArray) {
 			}
 		}
 		// V vertical lineto y+
-		if(cmd == "v" || cmd == "V") {
+		else if(cmd == "v" || cmd == "V") {
 			for (var j = 0; j <= terms.length - 1; j++) {
 				var _y = parseFloat(terms[j]);
 				px = x, py = y;
@@ -95,7 +99,7 @@ SVGPathUtil.drawSVGPath = function (pathArray) {
 			}
 		}
 		// C curveto (x1 y1 x2 y2 x y)+
-		if(cmd == "c" || cmd == "C") {
+		else if(cmd == "c" || cmd == "C") {
 			for (var j = 0; j < terms.length / 6; j++) {
 				// get first control point
 				var _x = parseFloat(terms[j * 6]), _y = parseFloat(terms[j * 6 + 1]);
@@ -115,7 +119,7 @@ SVGPathUtil.drawSVGPath = function (pathArray) {
 			}		
 		}
 		// S smooth curveto	(x2 y2 x y)+
-		if(cmd == "s" || cmd == "S") {
+		else if(cmd == "s" || cmd == "S") {
 			for (var j = 0; j < terms.length / 4; j++) {
 				// get second control point
 				var _x = parseFloat(terms[j * 4]), _y = parseFloat(terms[j * 4 + 1]);
@@ -134,8 +138,11 @@ SVGPathUtil.drawSVGPath = function (pathArray) {
 			}		
 		}
 		// Z closepath (none)
-		if(cmd == "z" || cmd == "Z") {
+		else if(cmd == "z" || cmd == "Z") {
 			svgPathElementArray.push(new SVGPathElement(SVG_PATH_LINE, [cc.p(x,y), cc.p(ix,iy)]));
+		}
+		else {
+			cc.log("UNKNOWN CMD: " + cmd);
 		}
 	}
 	return svgPathElementArray
