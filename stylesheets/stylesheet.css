@@ -18,11 +18,11 @@ body {
 
 section {
   display: block;
-  margin: 0 0 20px 0;
+  margin: 0 0 0 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin: 0 0 20px;
+  margin: 0 0 15px;
 }
 
 li {
@@ -40,7 +40,7 @@ header {
   width: 100%;
   border-bottom: 1px dashed #b5e853;
   padding: 20px 0;
-  margin: 0 0 40px 0;
+  margin: 0 0 15px 0;
 }
 
 header h1 {
@@ -65,13 +65,14 @@ header h1:before {
 header h2 {
   font-size: 18px;
   font-weight: 300;
-  color: #666;
+  color: #899;
 }
 
 #downloads .btn {
   display: inline-block;
   text-align: center;
   margin: 0;
+  background: rgb(223, 56, 82);
 }
 
 /* Main Content
@@ -213,12 +214,12 @@ hr {
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin: 1px 8px 0 0;
+  margin: 1px 10px 0 0;
   float: left;
 }
 
 .btn-github .icon {
-  opacity: 0.6;
+  opacity: 0.99;
   background: url("../images/blacktocat.png") 0 0 no-repeat;
 }
 
@@ -245,3 +246,21 @@ a {
 .cf {
   zoom:1;
 }
+
+/* Modified by SuperSuRaccoon */
+
+.canvas-container {
+  text-align: center;
+}
+
+.canvas {
+  display: inline-block; 
+  border: 2px solid white; 
+  box-shadow: 0 5px 10px #ffffff;
+}
+
+footer {
+  text-align: center;
+}
+
+
