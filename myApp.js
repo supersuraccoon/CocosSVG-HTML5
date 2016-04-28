@@ -196,7 +196,7 @@ var DemoLayer = cc.Layer.extend({
             var svgSprite = SVGSprite.create(gSVGIcon[name]);
             svgSprite.setFlipY(true);
             svgSprite.setScale(1.5);
-            svgSprite.setColor(cc.c3b(r -= 0.5, g -= 1, b -= 1.5));
+            svgSprite.setColor(cc.c3b(r, g, b));
             svgSprite.setPosition(cc.p(30 + 60 * ((count - 1) % spritePerLine), 66 * lineCount));
             this.addChild(svgSprite, 99, 1000 + count);
             var svgSpriteName = cc.LabelTTF.create(name, "Impact", 14);

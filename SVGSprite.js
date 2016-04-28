@@ -70,7 +70,7 @@ var SVGSprite = cc.Node.extend({
 		return resultArray;
 	},
 	draw:function () {
-		cc.drawingUtil.setLineWidth(5.0);
+		cc.drawingUtil.setLineWidth(1.5);
 		cc.drawingUtil.setDrawColor4B(this._color.r, this._color.g, this._color.b, 255);
     	for (var i = 0; i < this._svgPathElementArray.length; i++) {
     		var svgPathElement = this._svgPathElementArray[i];
