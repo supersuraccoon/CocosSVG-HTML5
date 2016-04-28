@@ -1,4 +1,6 @@
-CocosSVG-HTML5
+### CocosSVG-HTML5
+
+[A live demo is here.](http://supersuraccoon.github.io/CocosSVG-HTML5)
 
 Inspired by Raphaël.js
 
